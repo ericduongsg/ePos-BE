@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ePos.API</name>
+    </assembly>
+    <members>
+        <member name="P:API.BO.ApiResult.errorCode">
+            <summary>
+             Error Code
+            </summary>
+        </member>
+        <member name="P:API.BO.ApiResult.message">
+            <summary>
+            Result message
+            </summary>
+        </member>
+        <member name="P:API.BO.ApiResult.data">
+            <summary>
+            Result data
+            </summary>
+        </member>
+        <member name="M:API.BO.ApiResult.#ctor(API.BO.ErrorCodes,System.String,System.Object)">
+            <summary>
+            API result
+            </summary>
+            <param name="errorCode"></param>
+            <param name="resultMessage"></param>
+            <param name="resultData"></param>
+        </member>
+        <member name="F:API.BO.ErrorCodes.OK">
+            <summary>
+            No error
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.BAD_REQUEST">
+            <summary>
+            Bad request
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.UNAUTHORIZED">
+            <summary>
+            Basic authentication invalidate
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.NOT_FOUND">
+            <summary>
+            Could not find content
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.UNEXPECTED">
+            <summary>
+            UnExpected
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.ACCOUNT_NOT_FOUND">
+            <summary>
+            Account not found
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.ACCOUNT_LOCKED">
+            <summary>
+            Account has been blocked
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.TOKEN_INVALIDATE">
+            <summary>
+            Token invalidate or expired
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.TOKEN_CHANGED">
+            <summary>
+            Token changed
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.MOBILE_ALREADY_EXISTS">
+            <summary>
+            The mobile number already exists
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.EMAIL_ALREADY_EXISTS">
+            <summary>
+            The email already exists
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.ACCOUNT_NOT_ACTIVATE">
+            <summary>
+            Account has not been activated
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.ACCOUNT_ALREADY_ACTIVATE">
+            <summary>
+            Account has been activated
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.UPDATE_STRIPE_CARD_TOKEN">
+            <summary>
+            Update stripe card token
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.BOOKING_PROCESSING">
+            <summary>
+            Booking processing(When Create booking Normal or Create booking refill)
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.UPDATE_CONTACT_INFO">
+            <summary>
+            Update Contact Info
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.BOOKING_PROCESSED">
+            <summary>
+            Booking processed(Complete booking)
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.DOCTOR_SKIPPED">
+            <summary>
+            Doctor skipped consult
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.DOCTOR_NOT_SKIPPED">
+            <summary>
+            Doctor haven't skipped consult
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.MEMBER_REQUEST_AGAIN_OTP_CODE">
+            <summary>
+            Request again otp code
+            </summary>
+        </member>
+        <member name="F:API.BO.ErrorCodes.MEMBER_REQUESTED_OTP_CODE">
+            <summary>
+            Requestd otp code
+            </summary>
+        </member>
+        <member name="M:WhiteCoat.API.Handlers.AuthenticationFilterAttribute.OnAuthenticationAsync(System.Web.Http.Filters.HttpAuthenticationContext,System.Threading.CancellationToken)">
+            <summary>
+            Authenticates the request asynchronously.
+            </summary>
+            <param name="context">The authentication context.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A Task that will perform the authentication challenge.</returns>
+        </member>
+        <member name="M:WhiteCoat.API.Handlers.AuthenticationFilterAttribute.OnAuthentication(System.Web.Http.Filters.HttpAuthenticationContext)">
+            <summary>
+            Authenticates the request.
+            </summary>
+            <param name="context">The authentication context.</param>
+        </member>
+        <member name="M:WhiteCoat.API.Handlers.AuthenticationFilterAttribute.OnAuthenticationChallengeAsync(System.Web.Http.Filters.HttpAuthenticationChallengeContext,System.Threading.CancellationToken)">
+            <summary>
+            Adds an authentication challenge to the inner IHttpActionResult asynchronously.
+            </summary>
+            <param name="context">The authentication challenge context.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A Task that will perform the authentication challenge.</returns>
+        </member>
+        <member name="M:WhiteCoat.API.Handlers.AuthenticationFilterAttribute.OnAuthenticationChallenge(System.Web.Http.Filters.HttpAuthenticationChallengeContext)">
+            <summary>
+            Adds an authentication challenge to the inner IHttpActionResult.
+            </summary>
+            <param name="context">The authentication challenge context.</param>
+        </member>
+    </members>
+</doc>

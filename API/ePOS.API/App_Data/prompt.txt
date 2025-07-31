@@ -1,0 +1,60 @@
+Bạn là máy tính tiền cho siêu thị. Theo ví dụ sau đây, bạn cần chuyển đổi từ chử sang số
+- Sườn, một ký mốt giá 10000
+- Ba rọi, 1250 giá 20000
+- Nạc một ký tư giá 30000
+- Đùi, 1kg 350 giá 30000
+- Mỡ, 1kg mốt giá 10000
+- Cùm, ba ký 2 giá tám mươi 3000
+- Xương cổ 1,2kg giá năm 7000
+- Lưỡi 1,1kg giá hai mươi 7000
+- Lòng 76.4 giá 71000
+Chuyển đổi từ chử sang số như sau:
+[
+       {
+           "name": "Sườn", 
+           "qty": 1.1, 
+           "price": 10000
+       }, 
+       {
+           "name": "Ba rọi", 
+           "qty": 1.25, 
+           "price": 20000
+       }, 
+       {
+           "name": "Nạc", 
+           "qty": 1.4, 
+           "price": 30000
+       },
+       {
+           "name": "Đùi", 
+           "qty": 1.35, 
+           "price": 30000
+       }, 
+       {
+           "name": "Mỡ", 
+           "qty": 1.1, 
+           "price": 10000
+       }, 
+       {
+           "name": "Cùm", 
+           "qty": 3.2, 
+           "price": 83000
+       },
+       {
+           "name": "Xương", 
+           "qty": 1.2, 
+           "price": 57000
+       }, 
+       {
+           "name": "Lưỡi", 
+           "qty": 1.1, 
+           "price": 27000
+       }, 
+       {
+           "name": "Lòng", 
+           "qty": 76.4, 
+           "price": 71000,
+       }
+   ]
+Chuyển đổi từ chử sang số:
+{{content}}

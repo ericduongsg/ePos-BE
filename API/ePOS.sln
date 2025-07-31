@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.33529.398
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreApp.BL", "CoreApp.BL\CoreApp.BL.csproj", "{B6AB3F58-2010-4F25-8E26-1A5A1D9B94B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreApp.DAL", "CMS.DAL\CoreApp.DAL.csproj", "{521D0803-BEF6-45A9-B39B-615E5D6DE47E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ePOS.API", "ePOS.API\ePOS.API.csproj", "{9B751115-6BEF-4F09-9A3E-45A080CAC00B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6AB3F58-2010-4F25-8E26-1A5A1D9B94B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6AB3F58-2010-4F25-8E26-1A5A1D9B94B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6AB3F58-2010-4F25-8E26-1A5A1D9B94B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6AB3F58-2010-4F25-8E26-1A5A1D9B94B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521D0803-BEF6-45A9-B39B-615E5D6DE47E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521D0803-BEF6-45A9-B39B-615E5D6DE47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521D0803-BEF6-45A9-B39B-615E5D6DE47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521D0803-BEF6-45A9-B39B-615E5D6DE47E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B751115-6BEF-4F09-9A3E-45A080CAC00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B751115-6BEF-4F09-9A3E-45A080CAC00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B751115-6BEF-4F09-9A3E-45A080CAC00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B751115-6BEF-4F09-9A3E-45A080CAC00B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE6509F9-8786-4720-904F-1227C2D52118}
+	EndGlobalSection
+EndGlobal

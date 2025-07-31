@@ -416,3 +416,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+API/ePOS.API/Web.config
+API/ePOS.API/Web.Debug.config
+API/ePOS.API/Web.Release.config

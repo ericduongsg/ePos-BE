@@ -1,0 +1,71 @@
+@using System.Web.Http
+@using System.Web.Http.Controllers
+@using System.Web.Http.Description
+@using WebApi.Areas.HelpPage
+@using WebApi.Areas.HelpPage.Models
+@model IGrouping<HttpControllerDescriptor, ApiDescription>
+
+@{
+    var controllerDocumentation = ViewBag.DocumentationProvider != null ?
+        ViewBag.DocumentationProvider.GetDocumentation(Model.Key) :
+        null;
+}
+
+<h3 id="@Model.Key.ControllerName">@Model.Key.ControllerName</h3>
+@if (!String.IsNullOrEmpty(controllerDocumentation))
+{
+    <p>@controllerDocumentation</p>
+}
+<table class="help-page-table">
+    <thead>
+        <tr>
+            <th>API</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (this.ViewContext.RouteData.Values["controller"].ToString().ToLower() == Core_App.BL.Constants.API_ROLE_NAME.DOCTOR ||
+            this.ViewContext.RouteData.Values["controller"].ToString().ToLower() == Core_App.BL.Constants.API_ROLE_NAME.MEMBER ||
+            this.ViewContext.RouteData.Values["controller"].ToString().ToLower() == Core_App.BL.Constants.API_ROLE_NAME.DRIVER ||
+            this.ViewContext.RouteData.Values["controller"].ToString().ToLower() == Core_App.BL.Constants.API_ROLE_NAME.PHARMACY)
+        {
+            <tr>
+                <td class="api-name">
+                    <a href="~/doc/Login.cshtml">POST v1/Login
+                    </a></td>
+                <td class="api-documentation">@this.ViewContext.RouteData.Values["controller"].ToString() login. Server will return access token</td>
+            </tr>
+        }
+        @foreach (var api in Model)
+        {
+            if (@Model.Key.ControllerName.ToLower() == this.ViewContext.RouteData.Values["controller"].ToString().ToLower())
+            {
+            <tr>
+                <td class="api-name"><a href="@Url.Action("api", @Model.Key.ControllerName, new { apiId = api.GetFriendlyId() })">
+                    @api.HttpMethod.Method
+                    @if (@api.RelativePath.IndexOf("?") == -1)
+                    {
+                        @api.RelativePath
+                    }
+                    else
+                    {
+                        @api.RelativePath.Substring(0, @api.RelativePath.IndexOf("?"))
+                    }
+
+                </a></td>
+                <td class="api-documentation">
+                    @if (api.Documentation != null)
+                    {
+                        <p>@api.Documentation</p>
+                    }
+                    else
+                    {
+                        <p>No documentation available.</p>
+                    }
+                </td>
+            </tr>
+            }
+
+        }
+    </tbody>
+</table>

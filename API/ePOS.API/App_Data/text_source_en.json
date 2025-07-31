@@ -1,0 +1,20 @@
+﻿{
+  "suggest": [
+    {
+      "src": "to",
+      "correct": "two"
+    },
+    {
+      "src": "me",
+      "correct": "mee"
+    },
+    {
+      "src": "do",
+      "correct": "two"
+    },
+    {
+      "src": "this",
+      "correct": "dishes"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+﻿{
+  "suggest": [
+    {
+      "src": "một ký mốt",
+      "correct": "1.1kg"
+    },
+    {
+      "src": "một kí mốt",
+      "correct": "1.1kg"
+    },
+    {
+      "src": "1 kí mốt",
+      "correct": "1.1kg"
+    },
+    {
+      "src": "một ký rưỡi",
+      "correct": "1.5kg"
+    },
+    {
+      "src": "một ký chín",
+      "correct": "1.9kg"
+    },
+    {
+      "src": "191",
+      "correct": "1.1kg"
+    },
+    {
+      "src": "196",
+      "correct": "1.6kg"
+    },
+    {
+      "src": "199",
+      "correct": "1.9kg"
+    },
+    {
+      "src": "198",
+      "correct": "1.8kg"
+    },
+    {
+      "src": "19950",
+      "correct": "1.95kg"
+    },
+    {
+      "src": "19850",
+      "correct": "1.85kg"
+    },
+    {
+      "src": "1 kí chín",
+      "correct": "1.9kg"
+    },
+    {
+      "src": "tí",
+      "correct": "ký"
+    },
+    {
+      "src": "1000",
+      "correct": "nghìn"
+    },
+    {
+      "src": "lăm 1000",
+      "correct": "lăm nghìn"
+    },
+    {
+      "src": "bẩy",
+      "correct": "bảy"
+    },
+    {
+      "src": "bà",
+      "correct": "ba"
+    },
+    {
+      "src": "già",
+      "correct": "giá"
+    },
+    {
+      "src": "bè",
+      "correct": "bẹ:"
+    },
+    {
+      "src": "bé",
+      "correct": "bẹ:"
+    },
+    {
+      "src": "mẹ",
+      "correct": "bẹ:"
+    },
+    {
+      "src": "3 gọi",
+      "correct": "ba rọi"
+    },
+    {
+      "src": "ba gọi",
+      "correct": "ba rọi"
+    },
+    {
+      "src": "gửi",
+      "correct": "rưỡi"
+    },
+    {
+      "src": "xưởng",
+      "correct": "sườn"
+    },
+    {
+      "src": "tường",
+      "correct": "sườn"
+    },
+    {
+      "src": "đường",
+      "correct": "sườn"
+    },
+    {
+      "src": "cầm",
+      "correct": "cùm"
+    },
+    {
+      "src": "cùng",
+      "correct": "cùm"
+    },
+    {
+      "src": "nạt",
+      "correct": "nạc"
+    },
+    {
+      "src": "nạp",
+      "correct": "nạc"
+    },
+    {
+      "src": "nòng",
+      "correct": "nọng"
+    },
+    {
+      "src": "nóng",
+      "correct": "nọng"
+    },
+    {
+      "src": "nặng",
+      "correct": "nọng"
+    },
+    {
+      "src": "đồng",
+      "correct": "nọng"
+    },
+    {
+      "src": "size",
+      "correct": "xay"
+    },
+    {
+      "src": "say",
+      "correct": "xay"
+    },
+    {
+      "src": "team",
+      "correct": "tim"
+    },
+    {
+      "src": "vụng",
+      "correct": "vụn"
+    },
+    {
+      "src": "mở",
+      "correct": "mỡ"
+    },
+    {
+      "src": "dâm",
+      "correct": "dăm"
+    },
+    {
+      "src": "ghen",
+      "correct": "gan"
+    },
+    {
+      "src": "vàng",
+      "correct": "gan"
+    },
+    {
+      "src": "quyết",
+      "correct": "huyết"
+    }
+  ]
+}

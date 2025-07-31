@@ -1,0 +1,32 @@
+[
+       {
+           "name": "mánh", 
+           "qty": 75.3, 
+           "price": 71000
+       }, 
+       {
+           "name": "manh", 
+           "qty": 74.4, 
+           "price": 71000
+       }, 
+       {
+           "name": "mánh", 
+           "qty": 72.9, 
+           "price": 71000
+       },
+       {
+           "name": "bánh", 
+           "qty": 75.0, 
+           "price": 71000
+       }, 
+       {
+           "name": "long", 
+           "qty": 26.6, 
+           "price": 42000
+       }, 
+       {
+           "name": "long", 
+           "qty": 24.8, 
+           "price": 42000
+       }
+   ]

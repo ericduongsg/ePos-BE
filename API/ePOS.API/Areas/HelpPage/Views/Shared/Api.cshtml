@@ -1,0 +1,27 @@
+@using System.Web.Http
+@using WebApi.Areas.HelpPage.Models
+@model HelpPageApiModel
+
+@{
+    var description = Model.ApiDescription;
+    ViewBag.Title = description.HttpMethod.Method + " " + description.RelativePath;
+}
+
+<link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
+<script src="~/Areas/HelpPage/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="~/Areas/HelpPage/js/jsonFormat/quickjsonformatter.js" type="text/javascript"></script>
+<script src="~/Areas/HelpPage/js/jsonFormat/json.format.js" type="text/javascript"></script>
+<link href="~/Areas/HelpPage/js/jsonFormat/quickjsonformatter.css" rel="stylesheet" type="text/css" />
+
+<div id="body" class="help-page">
+    <section class="featured">
+        <div class="content-wrapper">
+            <p>
+                @Html.ActionLink("Help Page Home", "Index")
+            </p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        @Html.DisplayForModel()
+    </section>
+</div>

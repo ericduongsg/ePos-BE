@@ -1,0 +1,88 @@
+@using System.Web.Http
+@using System.Web.Http.Description
+@using WebApi.Areas.HelpPage.Models
+@using WebApi.Areas.HelpPage.ModelDescriptions
+
+@model HelpPageApiModel
+
+@{
+    ApiDescription description = Model.ApiDescription;
+}
+<div class="body-header">
+    <h2>@description.HttpMethod.Method @description.RelativePath</h2>
+    <p class="description">@description.Documentation</p>
+</div>
+<div class="body-content">
+    <h3>Request Information</h3>
+    @*<h3>URI Parameters</h3>
+    @Html.DisplayFor(m => m.UriParameters, "Parameters")
+    <h3>Body Parameters</h3>*@
+
+    @*<p>@Model.RequestDocumentation</p>*@
+    @if (Model.RequestModelDescription != null)
+    {
+        <h4>Body Parameters</h4>
+        @Html.DisplayFor(m => m.RequestModelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.RequestModelDescription,
+                                                                                                controllerName= this.ViewContext.RouteData.Values["controller"].ToString().ToLower() })
+        if (Model.RequestBodyParameters != null)
+        {
+            @Html.DisplayFor(m => m.RequestBodyParameters, "Parameters")
+        }
+    }
+    else
+    {
+        <h4>URI Parameters</h4>
+        @Html.DisplayFor(m => m.UriParameters, "Parameters")
+    }
+
+    @if (Model.SampleRequests.Count > 0)
+    {
+        <h3>Request Formats</h3>
+        @Html.DisplayFor(m => m.SampleRequests, "Samples")
+    }
+
+    <h3>Response Information</h3>
+    @*<h3>Resource Description</h3>
+    <p>@description.ResponseDescription.Documentation</p>*@
+
+    @if (Model.ResourceDescription != null)
+    {
+        @Html.DisplayFor(m => m.ResourceDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.ResourceDescription,
+                                                                                                controllerName=this.ViewContext.RouteData.Values["controller"].ToString().ToLower()})
+        if (Model.ResourceProperties != null)
+        {
+            @Html.DisplayFor(m => m.ResourceProperties, "Parameters")
+        }
+    }
+    else
+    {
+        <p>None.</p>
+    }
+   @{
+        var itemDetail = @description.RelativePath.Split("/".ToCharArray());
+        string controllerName = "";
+        string apiName = "";
+    }
+    @if (itemDetail.Length > 1)
+    {
+        controllerName = itemDetail[itemDetail.Length -2];
+        apiName = itemDetail[itemDetail.Length - 1];
+        if (apiName.Contains("?"))
+        {
+            apiName = apiName.Substring(0, apiName.IndexOf("?"));
+        }
+    } 
+    @if (Model.SampleResponses.Count > 0)
+    {
+        <h3>Sample Response</h3>
+        <h4 class="sample-header">application/json, text/json</h4>
+        <div id="sampleResponse" class="sample-content" rel="@controllerName">
+            <div id="responeJson" rel="@apiName"></div>
+            <div id="errorResponeJson"></div>
+        </div>
+        @*
+        @Html.DisplayFor(m => m.SampleResponses, "Samples")
+        *@
+    }
+
+</div>
