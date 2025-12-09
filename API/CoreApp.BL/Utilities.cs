@@ -97,7 +97,7 @@ namespace Core_App.BL
         //Set Encrypt
         public string setEncrypt(string sParam)
         {
-            sParam = Rijndael.Encrypt(sParam, "pr@se_pwd", "cts@devteam", "MD5", 2, "@1B2c3D4e5F6g7H8", 256);
+            sParam = Rijndael.Encrypt(sParam, "6LDgIbqvsU", "L2Iu@mI1Cv", "MD5", 2, "k8Hbb9y!gQ2D9Pq3", 256);
             return sParam;
         }
 
@@ -105,7 +105,7 @@ namespace Core_App.BL
         {
             try
             {
-                sParam = Rijndael.Decrypt(sParam, "pr@se_pwd", "cts@devteam", "MD5", 2, "@1B2c3D4e5F6g7H8", 256);
+                sParam = Rijndael.Decrypt(sParam, "6LDgIbqvsU", "L2Iu@mI1Cv", "MD5", 2, "k8Hbb9y!gQ2D9Pq3", 256);
             }
             catch
             {

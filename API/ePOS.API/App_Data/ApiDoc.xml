@@ -4,6 +4,19 @@
         <name>ePos.API</name>
     </assembly>
     <members>
+        <member name="M:API.BL.ApiKey_BL.GetBestAvailableApiKey">
+            <summary>
+            Gets the best available API key based on usage (prioritizes keys with fewer requests today)
+            </summary>
+            <returns>The API key info object or null if no keys available</returns>
+        </member>
+        <member name="M:API.BL.ApiKey_BL.UpdateApiKeyUsage(System.String)">
+            <summary>
+            Updates the API key usage after a successful request
+            </summary>
+            <param name="apiKey">The API key that was used</param>
+            <returns>True if update was successful</returns>
+        </member>
         <member name="P:API.BO.ApiResult.errorCode">
             <summary>
              Error Code

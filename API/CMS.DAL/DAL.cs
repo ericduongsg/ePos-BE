@@ -18,8 +18,8 @@ namespace Core_App
     ///</summary>
     public class DAL
     {
-        //public static string ConnectionString = ConfigurationManager.ConnectionStrings["AppConnString"].ConnectionString;
-        public static string ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+        public static string ConnectionString = ConfigurationManager.ConnectionStrings["AppConnString"].ConnectionString;
+        //public static string ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
         private string mstr_ConnectionString;
         private SqlConnection mobj_SqlConnection;
         private SqlCommand mobj_SqlCommand;
@@ -44,12 +44,14 @@ namespace Core_App
             return oParam;
         }
 
-        
+
 
         public void CloseConnection()
         {
-            if (mobj_SqlConnection.State != ConnectionState.Closed) mobj_SqlConnection.Close();
+            if (mobj_SqlConnection != null && mobj_SqlConnection.State != ConnectionState.Closed)
+                mobj_SqlConnection.Close();
         }
+
 
         ///<summary>
         ///Check existing data by SQL command

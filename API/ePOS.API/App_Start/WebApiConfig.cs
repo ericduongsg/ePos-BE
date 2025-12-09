@@ -31,6 +31,8 @@ namespace WhiteCoat.API
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
             config.Formatters.Add(new FormUrlEncodedMediaTypeFormatter());
+
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
         }
     }
 }

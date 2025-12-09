@@ -1,0 +1,16 @@
+CREATE TABLE [dbo].[tbl_Api_Keys](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Api_Key] [varchar](150) NULL,
+	[Latest_Request_On] [datetime] NULL,
+	[Total_Request] [int] NULL,
+	[Account_Info] [varchar](150) NULL,
+	[Type] [tinyint] NULL,
+ CONSTRAINT [PK_tbl_Api_Keys] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'1: gemini; 2: mega-llm' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'tbl_Api_Keys', @level2type=N'COLUMN',@level2name=N'Type'
+GO
