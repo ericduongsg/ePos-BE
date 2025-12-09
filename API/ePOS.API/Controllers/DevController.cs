@@ -209,18 +209,18 @@ namespace WhiteCoat.API.Controllers
             string content = model.Content.Trim();
             string requestPrompt = "";
 
-            if (model.Language == "en_US")
-            {
-                requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_EN"].ToString();
-            }
-            else if (model.Language == "en_SG")
-            {
-                requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_EN"].ToString();
-            }
-            else
-            {
-                requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_VN"].ToString();
-            }
+            //if (model.Language == "en_US")
+            //{
+            //    requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_EN"].ToString();
+            //}
+            //else if (model.Language == "en_SG")
+            //{
+            //    requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_EN"].ToString();
+            //}
+            //else
+            //{
+            //    requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_VN"].ToString();
+            //}
 
             string appdatafolder = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "App_Data");
             string fileName = "prompt.txt";
