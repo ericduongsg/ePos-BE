@@ -34,10 +34,11 @@ namespace API.BL
                 // 1. Keys with Total_Request < 20 for today (or null Total_Request)
                 // 2. Keys with older Latest_Request_On (to distribute load)
                 // 3. Keys with fewer Total_Request
+                // NOTED: Type = 1 for gemini temp no-use
                 string query = @"
                     SELECT TOP 1 Id, Api_Key, Latest_Request_On, Total_Request, Type
                     FROM tbl_Api_Keys
-                    WHERE (Type = 1 AND (Total_Request < 20 OR Total_Request IS NULL)) OR Type != 1
+                    WHERE ((Type = 3 AND (Total_Request < 20 OR Total_Request IS NULL) AND (Latest_Request_On IS NULL OR DATEADD(SECOND, 150, Latest_Request_On) < GETDATE())) OR Type != 1) AND Status = 1
                     ORDER BY
                         CASE WHEN Latest_Request_On < CAST(GETDATE() AS DATE) THEN 0 ELSE 1 END,
                         Latest_Request_On ASC,

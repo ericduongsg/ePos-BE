@@ -11,6 +11,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -134,7 +135,7 @@ namespace WhiteCoat.API.Controllers
 
                     InfoGoogleResponse infoGoogleResponse = JsonConvert.DeserializeObject<InfoGoogleResponse>(restResponse.Content);
                     string textResponse = infoGoogleResponse.candidates[0].content.parts[0].text;
-                    //models/gemini-2.5-flash changes
+
                     textResponse = textResponse.Replace("```json", "");
                     textResponse = textResponse.Replace("```", "");
                     var resultInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ItemInfo>>(textResponse);
@@ -209,6 +210,10 @@ namespace WhiteCoat.API.Controllers
             string content = model.Content.Trim();
             string requestPrompt = "";
 
+            //Utilities utilities1 = new Utilities();
+            //string s = utilities1.setEncrypt("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");
+            //string a = utilities1.getDecrypt("ilXgDgW7MZFkmRRp5n/fvZDPWiM1cYKumIyc1EP3neqf7lEbz/ZVjRG3cEUvAA6Ju8w+Dcb6OuX8OadgKrRH/3lf9KnRF7DG0FSEpXJhirI=");
+            
             //if (model.Language == "en_US")
             //{
             //    requestPrompt = System.Configuration.ConfigurationManager.AppSettings["GOOGLE_API_CONTENT_EN"].ToString();
@@ -243,9 +248,13 @@ namespace WhiteCoat.API.Controllers
                     return requestGemini(requestPrompt, apiKey, apiKeyInfo.Api_Key);
                     //return requestMegaLLM(requestPrompt, apiKey);
                 }
+                else if (apiKeyInfo.Type == "3")//Request Groq
+                {
+                    return requestGroq(requestPrompt, apiKey, apiKeyInfo.Api_Key);
+                }
                 else
                 {
-                    return requestMegaLLM(requestPrompt, apiKey, apiKeyInfo.Api_Key);                    
+                    return requestMegaLLM(requestPrompt, apiKey, apiKeyInfo.Api_Key);
                 }
                 
             }
@@ -257,6 +266,7 @@ namespace WhiteCoat.API.Controllers
             }
 
         }
+        
         private ApiResult requestGemini(string requestPrompt, string apiKey, string encryptedApiKey)
         {
             InfoGoogleRequest infoRequest = new InfoGoogleRequest
@@ -277,8 +287,6 @@ namespace WhiteCoat.API.Controllers
                 generationConfig = new GenerationConfigGoogleRequest
                 {
                     temperature = 0,
-                    topK = 1,
-                    topP = 1,
                     maxOutputTokens = 8192,
                     stopSequences = new List<object>()
                 },
@@ -296,13 +304,14 @@ namespace WhiteCoat.API.Controllers
             request.AddUrlSegment("key", apiKey);
             request.RequestFormat = RestSharp.DataFormat.Json;
             request.AddBody(infoRequest);
+
             IRestResponse restResponse = client.Execute(request);
 
-            if (restResponse.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                // Update API key usage after successful request
-                apiKeyBL.UpdateApiKeyUsage(encryptedApiKey);
+            // Update API key usage after successful request
+            apiKeyBL.UpdateApiKeyUsage(encryptedApiKey);
 
+            if (restResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {               
                 InfoGoogleResponse infoGoogleResponse = JsonConvert.DeserializeObject<InfoGoogleResponse>(restResponse.Content);
                 string textResponse = infoGoogleResponse.candidates[0].content.parts[0].text;
                 textResponse = textResponse.Replace("```json", "").Replace("```", "");
@@ -354,6 +363,9 @@ namespace WhiteCoat.API.Controllers
             var requestInfo = new
             {
                 model = System.Configuration.ConfigurationManager.AppSettings["MEGALLM_MODEL"].ToString(),
+                temperature = 0,
+                topK = 1,
+                topP = 1,
                 messages = new[]
                 {
                     new { role = "user", content = requestPrompt }
@@ -366,10 +378,7 @@ namespace WhiteCoat.API.Controllers
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Formatting = Formatting.None
             };
-
             string jsonBody = JsonConvert.SerializeObject(requestInfo, serializerSettings);
-
-
 
             var client = new RestClient(System.Configuration.ConfigurationManager.AppSettings["MEGALLM_API_URL"].ToString());
             var request = new RestRequest(Method.POST);
@@ -379,17 +388,33 @@ namespace WhiteCoat.API.Controllers
             request.AddParameter("application/json", jsonBody, ParameterType.RequestBody);
 
             IRestResponse restResponse = client.Execute(request);
+
+            // Update API key usage after successful request
+            apiKeyBL.UpdateApiKeyUsage(encryptedApiKey);
+
             if (restResponse.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                // Update API key usage after successful request
-                apiKeyBL.UpdateApiKeyUsage(encryptedApiKey);
-
-
+            {                
 
                 ChatCompletionResponse chatCompletionResponse = JsonConvert.DeserializeObject<ChatCompletionResponse>(restResponse.Content);
                 string textResponse = chatCompletionResponse.Choices[0].Message.Content;
 
-                textResponse = textResponse.Replace("```json", "").Replace("```", "");
+                _logger.Info("MegaLLM response: " + textResponse);
+
+                //textResponse = textResponse.Replace("```json", "").Replace("```", "");
+                // Regex to capture JSON block between ```json ... ```
+                var match = Regex.Match(textResponse, @"```json\s*(.*?)\s*```", RegexOptions.Singleline);
+
+                if (match.Success)
+                {
+                    textResponse = match.Groups[1].Value;
+                    _logger.Info("Replaced MegaLLM response: " + textResponse);
+                }
+                else
+                {
+                    textResponse = textResponse.Replace("```json", "").Replace("```", "");
+                    //_logger.Info("MegaLLM without JSON: " + textResponse);
+                }
+
                 var itemInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ItemInfo>>(textResponse);
 
                 //_logger.Info("Dev-contrller GenerateResult responseMessage: " + textResponse);
@@ -430,6 +455,92 @@ namespace WhiteCoat.API.Controllers
             }
 
             //return new ApiResult(ErrorCodes.OK, "success", apiKey);
+        }
+
+        private ApiResult requestGroq(string requestPrompt, string apiKey, string encryptedApiKey)
+        {
+            var requestInfo = new
+            {
+                model = System.Configuration.ConfigurationManager.AppSettings["GROQ_MODEL"].ToString(),
+                temperature = 0,
+                reasoning_effort = "low",
+                include_reasoning = false,
+                stream = false,
+                max_completion_tokens = 4096,
+                messages = new[]
+                {
+                    new { role = "user", content = requestPrompt }
+                }
+            };
+
+            // Configure Newtonsoft.Json serializer with camelCase
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+            string jsonBody = JsonConvert.SerializeObject(requestInfo, serializerSettings);
+
+            var client = new RestClient(System.Configuration.ConfigurationManager.AppSettings["GROQ_API_URL"].ToString());
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Authorization", "Bearer " + apiKey);
+            request.RequestFormat = RestSharp.DataFormat.Json;
+            request.AddParameter("application/json", jsonBody, ParameterType.RequestBody);
+
+            IRestResponse restResponse = client.Execute(request);
+
+            // Update API key usage after successful request
+            apiKeyBL.UpdateApiKeyUsage(encryptedApiKey);
+
+            if (restResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                ChatCompletionResponse chatCompletionResponse = JsonConvert.DeserializeObject<ChatCompletionResponse>(restResponse.Content);
+                string textResponse = chatCompletionResponse.Choices[0].Message.Content;
+
+                _logger.Info("Groq response: " + textResponse);
+
+                // Regex to capture JSON block between ```json ... ```
+                var match = Regex.Match(textResponse, @"```json\s*(.*?)\s*```", RegexOptions.Singleline);
+
+                if (match.Success)
+                {
+                    textResponse = match.Groups[1].Value;
+                    _logger.Info("Replaced Groq response: " + textResponse);
+                }
+                else
+                {
+                    textResponse = textResponse.Replace("```json", "").Replace("```", "");
+                }
+
+                var itemInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ItemInfo>>(textResponse);
+
+                double totalAmount = 0;
+                foreach (var item in itemInfos)
+                {
+                    string qty = item.qty;
+                    string price = item.price;
+
+                    double amount = double.Parse(qty) * double.Parse(price);
+                    totalAmount += amount;
+
+                    item.qty = String.Format("{0:N2}", double.Parse(qty));
+                    item.price = String.Format("{0:N0}", double.Parse(price));
+                    item.amount = String.Format("{0:N0}", amount);
+                }
+
+                OrderInfo result = new OrderInfo();
+                result.total_amount = String.Format("{0:N0}", totalAmount);
+                result.items = itemInfos;
+
+                return new ApiResult(ErrorCodes.OK, "success", result);
+            }
+            else
+            {
+                var objSerialize = JsonConvert.SerializeObject(restResponse.Content, Formatting.Indented);
+                _logger.Error("requestGroq Error responseMessage: " + Convert.ToString(objSerialize));
+
+                return new ApiResult(ErrorCodes.BAD_REQUEST, "Error", "Đã xảy ra lỗi, vui lòng thử lại trong giây lát. Error: " + restResponse.StatusCode);
+            }
         }
         [HttpGet]
         public ApiResult TextSource(string language)

@@ -58,3 +58,4 @@ Chuyển đổi từ chử sang số như sau:
    ]
 Chuyển đổi từ chử sang số:
 {{content}}
+Chỉ trả về json và không thêm bất cứ nội dung nào khác.
