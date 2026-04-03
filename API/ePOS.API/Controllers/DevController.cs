@@ -211,8 +211,8 @@ namespace WhiteCoat.API.Controllers
             string requestPrompt = "";
 
             //Utilities utilities1 = new Utilities();
-            //string s = utilities1.setEncrypt("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");
-            //string a = utilities1.getDecrypt("ilXgDgW7MZFkmRRp5n/fvZDPWiM1cYKumIyc1EP3neqf7lEbz/ZVjRG3cEUvAA6Ju8w+Dcb6OuX8OadgKrRH/3lf9KnRF7DG0FSEpXJhirI=");
+            //string s = utilities1.setEncrypt("");
+            //string a = utilities1.getDecrypt("");
             
             //if (model.Language == "en_US")
             //{
