@@ -252,6 +252,10 @@ namespace WhiteCoat.API.Controllers
                 {
                     return requestGroq(requestPrompt, apiKey, apiKeyInfo.Api_Key);
                 }
+                else if (apiKeyInfo.Type == "4")//Big Model
+                {
+                    return requestBigModel(requestPrompt, apiKey, apiKeyInfo.Api_Key);
+                }
                 else
                 {
                     return requestMegaLLM(requestPrompt, apiKey, apiKeyInfo.Api_Key);
@@ -505,7 +509,7 @@ namespace WhiteCoat.API.Controllers
                 if (match.Success)
                 {
                     textResponse = match.Groups[1].Value;
-                    _logger.Info("Replaced Groq response: " + textResponse);
+                    //_logger.Info("Groq response: " + textResponse);
                 }
                 else
                 {
@@ -537,7 +541,95 @@ namespace WhiteCoat.API.Controllers
             else
             {
                 var objSerialize = JsonConvert.SerializeObject(restResponse.Content, Formatting.Indented);
-                _logger.Error("requestGroq Error responseMessage: " + Convert.ToString(objSerialize));
+                _logger.Error("requestGroq Error encryptedApiKey: " + encryptedApiKey  + ", responseMessage: " + Convert.ToString(objSerialize));
+
+                return new ApiResult(ErrorCodes.BAD_REQUEST, "Error", "Đã xảy ra lỗi, vui lòng thử lại trong giây lát. Error: " + restResponse.StatusCode);
+            }
+        }
+
+        private ApiResult requestBigModel(string requestPrompt, string apiKey, string encryptedApiKey)
+        {
+            var requestInfo = new
+            {
+                model = System.Configuration.ConfigurationManager.AppSettings["BIGMODEL_MODEL"].ToString(),
+                temperature = 0,
+                max_tokens = 4096,
+                thinking = 
+                new {
+                    type = "disabled"
+                },
+                stream = false,
+                messages = new[]
+                {
+                    new { role = "user", content = requestPrompt }
+                }
+            };
+
+            // Configure Newtonsoft.Json serializer with camelCase
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+            string jsonBody = JsonConvert.SerializeObject(requestInfo, serializerSettings);
+
+            var client = new RestClient(System.Configuration.ConfigurationManager.AppSettings["BIGMODEL_API_URL"].ToString());
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Authorization", "Bearer " + apiKey);
+            request.RequestFormat = RestSharp.DataFormat.Json;
+            request.AddParameter("application/json", jsonBody, ParameterType.RequestBody);
+
+            IRestResponse restResponse = client.Execute(request);
+
+            // Update API key usage after successful request
+            apiKeyBL.UpdateApiKeyUsage(encryptedApiKey);
+
+            if (restResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                ChatCompletionResponse chatCompletionResponse = JsonConvert.DeserializeObject<ChatCompletionResponse>(restResponse.Content);
+                string textResponse = chatCompletionResponse.Choices[0].Message.Content;
+
+                _logger.Info("BigModel response: " + textResponse);
+
+                // Regex to capture JSON block between ```json ... ```
+                var match = Regex.Match(textResponse, @"```json\s*(.*?)\s*```", RegexOptions.Singleline);
+
+                if (match.Success)
+                {
+                    textResponse = match.Groups[1].Value;
+                    //_logger.Info("BigModel response: " + textResponse);
+                }
+                else
+                {
+                    textResponse = textResponse.Replace("```json", "").Replace("```", "");
+                }
+
+                var itemInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ItemInfo>>(textResponse);
+
+                double totalAmount = 0;
+                foreach (var item in itemInfos)
+                {
+                    string qty = item.qty;
+                    string price = item.price;
+
+                    double amount = double.Parse(qty) * double.Parse(price);
+                    totalAmount += amount;
+
+                    item.qty = String.Format("{0:N2}", double.Parse(qty));
+                    item.price = String.Format("{0:N0}", double.Parse(price));
+                    item.amount = String.Format("{0:N0}", amount);
+                }
+
+                OrderInfo result = new OrderInfo();
+                result.total_amount = String.Format("{0:N0}", totalAmount);
+                result.items = itemInfos;
+
+                return new ApiResult(ErrorCodes.OK, "success", result);
+            }
+            else
+            {
+                var objSerialize = JsonConvert.SerializeObject(restResponse.Content, Formatting.Indented);
+                _logger.Error("requestBigModel Error encryptedApiKey: " + encryptedApiKey + ", responseMessage: " + Convert.ToString(objSerialize));
 
                 return new ApiResult(ErrorCodes.BAD_REQUEST, "Error", "Đã xảy ra lỗi, vui lòng thử lại trong giây lát. Error: " + restResponse.StatusCode);
             }

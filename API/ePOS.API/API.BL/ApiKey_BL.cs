@@ -38,7 +38,7 @@ namespace API.BL
                 string query = @"
                     SELECT TOP 1 Id, Api_Key, Latest_Request_On, Total_Request, Type
                     FROM tbl_Api_Keys
-                    WHERE ((Type = 3 AND (Total_Request < 20 OR Total_Request IS NULL) AND (Latest_Request_On IS NULL OR DATEADD(SECOND, 150, Latest_Request_On) < GETDATE())) OR Type != 1) AND Status = 1
+                    WHERE Status = 1
                     ORDER BY
                         CASE WHEN Latest_Request_On < CAST(GETDATE() AS DATE) THEN 0 ELSE 1 END,
                         Latest_Request_On ASC,
